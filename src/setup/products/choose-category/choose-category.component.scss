@@ -1,0 +1,12 @@
+.category-card {
+    cursor: pointer;
+    margin-bottom: 1rem;
+}
+.selected-cat {
+    border: 3px #f50057 solid;
+    transition: 0.3s;
+}
+.text-right{
+    float: right;
+}
+

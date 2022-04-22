@@ -1,0 +1,74 @@
+@import '~@angular/material/theming';
+
+$my-blue: (
+  50: #FF7BAC,
+  100: #7faedd,
+  200: #7f7fdd,
+  300: #7faedd,
+  400: #7faedd,
+  500: #7faedd,
+  600: #7faedd,
+  700: #7faedd,
+  800: #7faedd,
+  900: #7faedd,
+  A100: #7faedd,
+  A200: #7faedd,
+  A400: #7faedd,
+  A700: #7faedd,
+  contrast: (
+    50: white,
+    100: white,
+    200: white,
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: white,
+    A200: white,
+    A400: white,
+    A700: white,
+  )
+);
+$dark-primary: mat-palette($my-blue, 50);
+$dark-accent: mat-palette($mat-pink, A200);
+$dark-warn: mat-palette($mat-red, A200);
+$dark-theme: mat-dark-theme($dark-primary,$dark-accent,$dark-warn);
+
+
+.ngx-pagination .current {
+  background-color: #00ACC1 !important;
+}
+
+.sidenav-toolbar {
+  height: 64px;
+  display: flex;
+  flex-direction: row;
+
+  @media (max-width: 600px) {
+    height: 56px;
+  }
+}
+
+
+.mat-card {
+  /*background-image: url('/assets/Images/01_STS_DGT_7713_RGB-0.png') !important;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;*/
+}
+
+.image-card {
+  /*background-image: url('/assets/Images/01_STS_DGT_7713_RGB-0.png') !important;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;*/
+}
+
+.image-background-dark {
+ 
+}
+
+

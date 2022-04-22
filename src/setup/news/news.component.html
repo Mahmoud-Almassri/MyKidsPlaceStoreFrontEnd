@@ -1,0 +1,41 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      News Management
+    </mat-card-title>
+  </mat-card-header>
+  <hr>
+  <mat-card-content>
+    <div class="row">
+      <div class="col">
+        <form [formGroup]="newsForm">
+          <div class="row">
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>End Date</mat-label>
+                <input matInput [matDatepicker]="datepicker" formControlName="endDate">
+                <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+                <mat-datepicker #datepicker>
+                </mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>News Description</mat-label>
+                <textarea rows="5" matInput formControlName="newsDescription"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col text-right" style="margin-top: 20px;">
+              <button mat-raised-button color="accent" (click)="submitForm()" style="margin: 1px;">Submit</button>
+             </div>
+          </div>
+        </form>
+      </div>
+    </div>
+</mat-card-content>
+</mat-card>
+<br>

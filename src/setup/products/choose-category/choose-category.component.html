@@ -1,0 +1,36 @@
+<h2> Choose Category</h2>
+<div id="root">
+    <div class="container pt-5">
+      <div class="row align-items-stretch">
+        <div class="c-dashboardInfo col-lg-3 col-md-6" *ngFor="let item of categoryList" (click)="next(item.id)" style="cursor: pointer;">
+          <div class="wrap">
+            <h3 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">   {{item.categoryName}}
+               </h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- <mat-card>
+    <mat-card-header>
+        <mat-card-title>
+            Choose Your Category
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div fxLayout.xs="column" fxLayout="row wrap" fxLayoutGap="10px" ngClass.gt-xs="ml-10">
+            <mat-card (click)="next(item.id)" matRipple matRippleColor="accent"
+                fxFlex.sm="0 1 calc(50%-10px)" fxFlex.md="0 1 calc(33%-10px)" fxFlex.gt-md="0 1 calc(25%-10px)"
+                *ngFor="let item of categoryList" class="col-xs-12 col-xs-12 col-md-4 category-card"
+                [ngClass]="this.selectedCategoryId==item.id?'selected-cat':''" style="margin-top: 5px;">
+                <div class="row">
+                    <div class="col-8">
+                        <p><b> Category Name:</b> {{item.categoryName}}</p>
+                        <p><b> Arabic Category Name:</b> {{item.categoryNameAr}}</p>
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+    </mat-card-content>
+</mat-card> -->

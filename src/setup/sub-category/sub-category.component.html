@@ -1,0 +1,103 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      {{!isEdit ? 'Add Sub Category': 'Edit Sub Category'}}
+    </mat-card-title>
+  </mat-card-header>
+  <hr>
+  <mat-card-content>
+    <div class="row">
+      <div class="col">
+        <form [formGroup]="subCategoryForm">
+          <div class="row">
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Category</mat-label>
+                <mat-select formControlName="categoryId">
+                  <mat-option *ngFor="let category of categoryList" [value]="category.id">
+                    {{category.categoryName}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Sub Category Name</mat-label>
+                <input type="text" matInput formControlName="name">
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>ِArabic Sub Category Name</mat-label>
+                <input type="text" matInput formControlName="nameAr">
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Description</mat-label>
+                <textarea type="text" matInput formControlName="description"></textarea>
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Order</mat-label>
+                <input type="number"  matInput formControlName="orderNumber">
+              </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-checkbox [checked]="getFormControlByName('noGenderClassification').value == true" (change)="getFormControlByName('noGenderClassification').setValue($event.checked)">No Gender Classification?</mat-checkbox>
+            </div>
+            <div class="col"  style="margin-top: 20px;">
+              <mat-checkbox [checked]="getFormControlByName('status').value == 1" (change)="check($event.checked)">Display in mobile application?</mat-checkbox>
+            </div>
+            
+          </div>
+          <div class="row">
+            <div class="col text-right" style="margin-top: 20px;">
+              <button mat-raised-button color="accent" *ngIf="!isEdit" (click)="submitForm()" style="margin: 1px;">Add</button>
+              <button mat-raised-button color="accent" *ngIf="isEdit" (click)="editForm()" style="margin: 1px;">Edit</button>
+              <button mat-raised-button color="accent" (click)="cancel()" style="margin: 1px;">Cancel</button>
+             </div>
+          </div>
+        </form>
+      </div>
+    </div>
+</mat-card-content>
+</mat-card>
+<br>
+<mat-card>
+  <mat-card-content>
+    <mat-form-field appearance="outline" style="width: 100%;">
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Zara" #input>
+    </mat-form-field>
+    
+    <div class="row">
+      <mat-card *ngFor="let item of subCategoryList" class="col-xs-12 col-xs-12 col-md-4" style="margin-top: 5px;">
+        <div class="row">
+        <div class="col-8">
+         <p><b> Sub Category Name:</b>  {{item.name}}</p> 
+         <p ><b> Arabic Sub Category Name:</b> <span dir="auto">{{item.nameAr}}</span> </p> 
+         <p><b> Description:</b>  {{item.description}}</p> 
+         <p><b> Order:</b>  {{item.orderNumber}}</p> 
+         <p><b> No Gender Classification? </b>  {{item.noGenderClassification ? 'Yes': 'No'}}</p> 
+        </div>
+        <div class="col-4 text-right">
+          <mat-chip-list aria-label="Fish selection">
+            <mat-chip color="accent" selected *ngIf="item?.status == 1">Active</mat-chip>
+            <mat-chip color="accent" *ngIf="item?.status != 1">InActive</mat-chip>
+          </mat-chip-list>
+         
+        </div>
+      </div>
+        <hr>  
+        <mat-card-actions class="text-right">
+          <button mat-raised-button color="accent" (click)="editItem(item)">Edit</button>
+
+          <button mat-raised-button color="warn" (click)="deleteItem(item)">Delete</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    <mat-paginator (page)="changePage($event)" [length]="totalListCount"  [pageSize]="10"  [pageSizeOptions]="[1, 10, 25, 100]" ></mat-paginator>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,50 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      Add Sale
+    </mat-card-title>
+  </mat-card-header>
+  <hr>
+  <mat-card-content>
+    <div class="row">
+      <div class="col">
+        <form [formGroup]="saleForm">
+          <div class="row">
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Old Price</mat-label>
+                <input type="number" matInput formControlName="oldPrice">
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>New Price</mat-label>
+                <input type="number" matInput formControlName="newPrice">
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>End Date</mat-label>
+                <input formControlName="endDate" matInput [matDatepicker]="picker">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="col" style="margin-top: 20px;">
+              <mat-checkbox [checked]="getFormControlByName('status').value == 1" (change)="getFormControlByName('status').setValue($event.checked? 1: 2)">
+                Display in mobile application?</mat-checkbox>
+            </div>
+            
+          </div>
+          <div class="row">
+            <div class="col text-right" style="margin-top: 20px;">
+              <button mat-raised-button color="accent" (click)="submitForm()"
+                style="margin: 1px;">Add</button>
+              <button mat-raised-button color="accent"  (click)="onNoClick()" style="margin: 1px;">Cancel</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,75 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      {{!isEdit ? 'Add Color': 'Edit Color'}}
+    </mat-card-title>
+  </mat-card-header>
+  <hr>
+  <mat-card-content>
+    <div class="row">
+      <div class="col">
+        <form [formGroup]="colorForm">
+          <div class="row">
+            <div class="col">
+              <span [style.color]="color"
+              style="cursor: pointer;"
+              [cpPosition]="'bottom'"
+              [cpPositionOffset]="'50%'"
+              [cpPositionRelativeToArrow]="true"
+              (colorPickerChange)="bindColor()"
+              [(colorPicker)]="color">Pick a Color</span>
+              <div>
+               <input style="width: 80px; height: 30px;" [style.backgroundColor]="color" (change)="bindColor()" [value]="color" readonly/>
+              </div>
+            </div>
+            <div class="col"  style="margin-top: 20px;">
+              <mat-checkbox [checked]="getFormControlByName('status').value == 1" (change)="check($event.checked)">Display in mobile application?</mat-checkbox>
+            </div>
+            
+          </div>
+          <div class="row">
+            <div class="col text-right" style="margin-top: 20px;">
+              <button mat-raised-button color="accent" *ngIf="!isEdit" (click)="submitForm()" style="margin: 1px;">Add</button>
+              <button mat-raised-button color="accent" *ngIf="isEdit" (click)="editForm()" style="margin: 1px;">Edit</button>
+              <button mat-raised-button color="accent" (click)="cancel()" style="margin: 1px;">Cancel</button>
+             </div>
+          </div>
+        </form>
+      </div>
+    </div>
+</mat-card-content>
+</mat-card>
+<br>
+<mat-card>
+  <mat-card-content>
+    <mat-form-field appearance="outline" style="width: 100%;">
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Zara" #input>
+    </mat-form-field>
+    
+    <div class="row">
+      <mat-card *ngFor="let item of colorList" class="col-xs-12 col-xs-12 col-md-4" style="margin-top: 5px;">
+        <div class="row">
+        <div class="col-8">
+          <b> Color:</b>  {{item.color}}
+         <div style="width: 20px; height: 20px;" [style.background]="item.color"></div>
+        </div>
+        <div class="col-4 text-right">
+          <mat-chip-list aria-label="Fish selection">
+            <mat-chip color="accent" selected *ngIf="item?.status == 1">Active</mat-chip>
+            <mat-chip color="accent" *ngIf="item?.status != 1">InActive</mat-chip>
+          </mat-chip-list>
+         
+        </div>
+      </div>
+        <hr>  
+        <mat-card-actions class="text-right">
+          <button mat-raised-button color="accent" (click)="editItem(item)">Edit</button>
+
+          <button mat-raised-button color="warn" (click)="deleteItem(item)">Delete</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    <mat-paginator (page)="changePage($event)" [length]="totalListCount"  [pageSize]="10"  [pageSizeOptions]="[1, 10, 25, 100]" ></mat-paginator>
+  </mat-card-content>
+</mat-card>

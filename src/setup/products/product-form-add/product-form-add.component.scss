@@ -1,0 +1,38 @@
+mat-form-field {
+  width: 100%;
+}
+
+#file-label {
+  display: inline-flex;
+  vertical-align: middle;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+#file-label mat-icon {
+  font-size: 18px;
+  text-align: center;
+}
+
+#file-label a {
+  cursor: pointer;
+}
+
+.remove-btn {
+  position: absolute;
+  left: 10px;
+  z-index: 999999;
+  top: 69px;
+}
+.example-margin {
+  margin: 0 12px;
+}
+.padding-35{
+  padding: 35px;
+}
+.selected-img{
+  height: 137px;
+    margin: 13px;
+    border: 1px #00000030 solid;
+    border-radius: 15px;
+}

@@ -1,0 +1,182 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      Product Details
+    </mat-card-title>
+    <!--  <button *ngIf="!isUpdateMode" mat-raised-button color="accent" (click)="enableUpdateMode()"
+      style="margin: 1px;">Edit Product</button> -->
+  </mat-card-header>
+  <hr>
+  <mat-card-content>
+    <div class="row">
+      <div class="col">
+        <form [formGroup]="productForm">
+          <div class="row">
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Title</mat-label>
+                <input type="text" matInput formControlName="title">
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Category</mat-label>
+                <mat-select formControlName="categoryId">
+                  <mat-option *ngFor="let category of categoryList" [value]="category.id"
+                    (onSelectionChange)="getSubCategoryByCategories(category.id)">{{category.categoryName}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Sub Category</mat-label>
+                <mat-select formControlName="subCategoryId">
+                  <mat-option *ngFor="let subCategory of subCategoryList" [value]="subCategory.id">
+                    {{subCategory.name}} </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Gender</mat-label>
+                <mat-select formControlName="gender">
+                  <mat-option [value]="1">Male </mat-option>
+                  <mat-option [value]="2">Female </mat-option>
+                  <mat-option [value]="3">All </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Price</mat-label>
+                <input type="number" min="1" matInput formControlName="price">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Brand</mat-label>
+                <mat-select formControlName="brandId">
+                  <mat-option *ngFor="let brand of brandsList" [value]="brand.id">
+                    {{brand.brandName}} </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <hr>
+            <hr>
+            <hr>
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Item Count</mat-label>
+                <input type="number" min="1" matInput formControlName="itemCount">
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Item Order</mat-label>
+                <input type="number" min="1" matInput formControlName="itemOrder">
+                <mat-hint>Leave it empty for default order</mat-hint>
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Sale</mat-label>
+                <mat-select formControlName="saleId">
+                  <mat-option>--</mat-option>
+                  <mat-option *ngFor="let sale of salesList" [value]="sale.id">
+                    Old Price {{sale.oldPrice}} => New Price {{sale.newPrice}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Status</mat-label>
+                <mat-select formControlName="status">
+                  <mat-option [value]="1">Active </mat-option>
+                  <mat-option [value]="2">In Active </mat-option>
+                  <mat-option [value]="8">Empty </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <mat-checkbox class="example-margin" (change)="isSetChanged($event)" formControlName="isSet">Is Set
+              </mat-checkbox>
+            </div>
+
+            <div class="col" *ngIf="getProductFormControlByName('isSet').value == true">
+              <mat-form-field appearance="outline">
+                <mat-label>Set Items</mat-label>
+                <mat-select #allItemsList [formControl]="setItems" multiple>
+                  <mat-option (onSelectionChange)="itemSelectionChange($event.source)" *ngFor="let item of itemsList"
+                    [value]="item.id">
+                    <img style="height: 80px;"
+                      [src]=" item.defaultImageUrl? imageUrl+ item.defaultImageUrl +imageSasToken:'../../assets/Images/logo.png'"
+                      alt="Default Item Image">
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row" *ngIf="setItemsList.length>0 && getProductFormControlByName('isSet').value==true">
+            <div class="col-4">
+              <mat-label>Selected Items</mat-label><br>
+              <img *ngFor="let item of setItemsList" class="selected-img"
+                [src]="item.defaultImageUrl? imageUrl+ item.defaultImageUrl+imageSasToken :'../../assets/Images/logo.png'" alt="Default Item Image">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+<br>
+<div class="row">
+  <div class="col-12">
+    <mat-card class="padding-35">
+      <mat-card-header>
+        <mat-card-title>
+          Product Images
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="row">
+          <mat-card class="col" style="margin-top: 5px;">
+            <div class="row" *ngIf="isUpdateMode">
+              <div class="col-4">
+                <mat-label>Choose product images</mat-label>
+                <button mat-button color="warn" (click)="onImagesSelected()">
+                  <mat-icon>file_upload</mat-icon>
+                  Upload
+                </button>
+                <input type="file" id="fileUpload" name="fileUpload" multiple="multiple" accept="{{accept}}"
+                  style="display:none;" />
+              </div>
+            </div>
+            <div class="row" *ngIf="isUpdateMode">
+              <button class="remove-btn" mat-mini-fab color="accent" (click)="removeImageFromGallery()"
+                *ngIf="galleryImages.length" mat-button color="warn">
+                <mat-icon>close</mat-icon>
+              </button>
+              <ngx-gallery [options]="galleryOptions" [images]="galleryImages" class="ngx-gallery"></ngx-gallery>
+            </div>
+          </mat-card>
+        </div>
+        <div class="row" *ngIf="isUpdateMode">
+          <div class="col text-right" style="margin-top: 20px;">
+            <button mat-raised-button color="accent" (click)="submitForm()" style="margin: 1px;">Update Product</button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<br>

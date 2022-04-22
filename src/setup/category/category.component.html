@@ -1,0 +1,83 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      {{!isEdit ? 'Add Category': 'Edit Category'}}
+    </mat-card-title>
+  </mat-card-header>
+  <hr>
+  <mat-card-content>
+    <div class="row">
+      <div class="col">
+        <form [formGroup]="categoryForm">
+          <div class="row">
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Category Name</mat-label>
+                <input type="text" matInput formControlName="categoryName">
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Arabic Category Name</mat-label>
+                <input type="text" matInput formControlName="categoryNameAr">
+              </mat-form-field>
+            </div>
+            <div class="col" style="margin-top: 20px;">
+              <input #fileInput type="file" [hidden]="true" (change)="handleFileInput($event.target.files[0])" accept=".jpg,.jpeg, .tiff, .png " />
+              <button *ngIf="!selectedFile" mat-raised-button color="accent" style="margin-right:10px;margin-bottom:10px;" (click)="fileInput.click()" matTooltip="Upload Category" matTooltipPosition="above">Upload Image</button>
+              <button *ngIf="selectedFile" mat-raised-button color="accent" (click)="clearFileInput()">{{selectedFile?.name}}
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+            <div class="col"  style="margin-top: 20px;">
+              <mat-checkbox [checked]="getFormControlByName('status').value == 1" (change)="check($event.checked)">Display in mobile application?</mat-checkbox>
+            </div>
+            
+          </div>
+          <div class="row">
+            <div class="col text-right" style="margin-top: 20px;">
+              <button mat-raised-button color="accent" *ngIf="!isEdit" (click)="submitForm()" style="margin: 1px;">Add</button>
+              <button mat-raised-button color="accent" *ngIf="isEdit" (click)="editForm()" style="margin: 1px;">Edit</button>
+              <button mat-raised-button color="accent" (click)="cancel()" style="margin: 1px;">Cancel</button>
+             </div>
+          </div>
+        </form>
+      </div>
+    </div>
+</mat-card-content>
+</mat-card>
+<br>
+<mat-card>
+  <mat-card-content>
+    <mat-form-field appearance="outline" style="width: 100%;">
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Zara" #input>
+    </mat-form-field>
+    
+    <div class="row">
+      <mat-card *ngFor="let item of categoryList" class="col-xs-12 col-xs-12 col-md-4" style="margin-top: 5px;">
+        <div class="row">
+        <div class="col-8">
+          <p><b> Category Name:</b>  {{item.categoryName}}</p> 
+          <p><b> Arabic Category Name:</b> <span dir="auto">{{item.categoryNameAr}} </span> </p> 
+          <p><b> Image:</b>  <a [href]="hostLink + '/AppImages/' + item.imagePath" _download>{{item.imagePath}}</a></p> 
+        </div>
+        <div class="col-4 text-right">
+          <mat-chip-list aria-label="Fish selection">
+            <mat-chip color="accent" selected *ngIf="item?.status == 1">Active</mat-chip>
+            <mat-chip color="accent" *ngIf="item?.status != 1">InActive</mat-chip>
+          </mat-chip-list>
+         
+        </div>
+      </div>
+        <hr>  
+        <mat-card-actions class="text-right">
+          <button mat-raised-button color="accent" (click)="editItem(item)">Edit</button>
+
+          <button mat-raised-button color="warn" (click)="deleteItem(item)">Delete</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    <mat-paginator (page)="changePage($event)" [length]="totalListCount"  [pageSize]="10"  [pageSizeOptions]="[1, 10, 25, 100]" ></mat-paginator>
+  </mat-card-content>
+</mat-card>

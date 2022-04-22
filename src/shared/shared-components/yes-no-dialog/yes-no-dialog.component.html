@@ -1,0 +1,9 @@
+<h1 mat-dialog-title><b>{{data.title}} </b> </h1>
+<div mat-dialog-content>
+  <p>{{data.content}}</p>
+</div>
+<hr />
+<div mat-dialog-actions style="float:right">
+  <button mat-raised-button color="primary" cdkFocusInitial [mat-dialog-close]="true" >Yes</button>
+  <button mat-raised-button color="warn" [mat-dialog-close]="false">No</button>
+</div>

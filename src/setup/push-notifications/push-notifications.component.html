@@ -1,0 +1,72 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      Push Notifications
+    </mat-card-title>
+  </mat-card-header>
+  <hr>
+  <mat-card-content>
+    <div class="row">
+      <div class="col">
+        <mat-radio-group [(ngModel)]="tergetedAudience" aria-label="Select an option">
+          <mat-radio-button [value]="3">Sepcific Users </mat-radio-button>
+          <mat-radio-button style="margin-left: 10px;" [value]="2">All Users</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <form [formGroup]="pushNotificationForm">
+          <div class="row">
+            <!-- <div class="col" *ngIf="tergetedAudience==1">
+              <mat-form-field appearance="outline">
+                <input type="text" placeholder="Choose user" aria-label="User" matInput [formControl]="user"
+                  [matAutocomplete]="usersAuto">
+                <mat-autocomplete (optionSelected)="userSelected($event)" #usersAuto="matAutocomplete">
+                  <mat-option *ngFor="let option of filteredUsers | async" [value]="option.fullName">
+                    {{option.fullName}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div> -->
+            <div class="col" *ngIf="tergetedAudience==3">
+              <!-- <mat-select-autocomplete class="w-100" appearance="outline" [placeholder]="'Select Users'" [options]="mappedUser" [multiple]='true'
+                name="optionsSelector" ngDefaultControl (selectionChange)="userSelectionChange($event)"
+                [formControl]="user">
+              </mat-select-autocomplete> -->
+              <ng-select appearance="outline" placeholder="Select Users" (change)="userSelectionChange($event)" [multiple]="true" [(ngModel)]="mappedUser" [ngModelOptions]="{standalone: true}">
+                <ng-option *ngFor="let user of usersList" [value]="user.id">{{user.fullName}}</ng-option>
+            </ng-select>
+            </div>
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Title</mat-label>
+                <input type="text" matInput formControlName="title">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Body</mat-label>
+                <textarea rows="5" type="text" matInput formControlName="body"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col text-right" style="margin-top: 20px;">
+              <button *ngIf="tergetedAudience == 1" (click)="submitSignleForm()" mat-raised-button color="accent"
+                style="margin: 1px;">Send Single Notification</button>
+              <button *ngIf="tergetedAudience == 2" (click)="submitAllForm()" mat-raised-button color="accent"
+                style="margin: 1px;">Send All Users Notification</button>
+              <button *ngIf="tergetedAudience == 3" (click)="submitMultiUserForm()" mat-raised-button color="accent"
+                style="margin: 1px;">Send All Users Notification</button>
+            </div>
+          </div>
+        </form>
+        
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+<br>

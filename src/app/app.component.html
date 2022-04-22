@@ -1,0 +1,68 @@
+<mat-sidenav-container style="min-height:91.7%">
+  
+  <mat-sidenav #sidenav mode="over" position="start" color="primary" style="background:linear-gradient(90deg, rgba(146,83,232,1) 90%, rgba(245,39,195,1) 100%);" *ngIf="authorizeService.isAuthenticated()">
+    <h4 style="text-align: center; margin: 10px;"><b style="color:white !important;">My Kids Place Store</b></h4>
+    <perfect-scrollbar style="max-width: 100%; max-height: 90%;">
+    <mat-nav-list *ngFor="let item of navItems">
+      <mat-list-item class="parent" (click)="navigate(item.route)">
+        <span class="full-width">{{item.displayName}}</span>
+        <mat-icon mat-list-icon>{{item.icon}}</mat-icon>
+        <!-- <mat-icon class="menu-button" [ngClass]="{'rotated' : showSubmenu}" *ngIf="isExpanded || isShowing">expand_more
+        </mat-icon> -->
+      </mat-list-item>
+      <!-- <div class="submenu" [ngClass]="{'expanded' : showSubmenu}" *ngIf="isShowing || isExpanded" >
+        <a mat-list-item *ngFor="let subItem of item.children"  (click)="navigate(subItem.route)">{{subItem.displayName}}</a>
+      </div> -->
+    </mat-nav-list>
+    </perfect-scrollbar>
+    
+  </mat-sidenav>
+  
+  <mat-sidenav-content style="min-height:91.7%">
+    <mat-toolbar color="primary" *ngIf="authorizeService.isAuthenticated()">
+      <button mat-icon-button *ngIf="!IsSidebarOpened()" (click)="toggle()" style=" margin-left: 6px;" >
+        <mat-icon class="menIcon">menu</mat-icon>
+      </button>
+      <button mat-icon-button *ngIf="IsSidebarOpened()" (click)="toggle()" style=" margin-left: 6px;">
+        <mat-icon class="menIcon">close</mat-icon>
+      </button>
+      <span class="example-spacer"></span>
+
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item disabled>
+          <mat-icon>account_circle</mat-icon>
+          <span>0777280986</span>
+        </button>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>login</mat-icon>
+          <span>Logout</span>
+        </button>
+      </mat-menu>
+     
+
+  <!--<span style="color:white"> {{authenticationService?.User?.empName}}</span>-->
+
+</mat-toolbar>
+    <div class="sidenav-content">
+      <div class="container-fluid" style="padding-top: 5%;">
+    
+        <router-outlet #o="outlet"></router-outlet>
+        <br />
+      </div>
+    </div>
+    <ngx-spinner bdColor = "rgba(247,162,254,0.8)" size = "medium" color = "#fff" type = "ball-spin-clockwise" [fullScreen] = "true"></ngx-spinner>
+    <simple-notifications></simple-notifications>
+    <footer style="min-height:6%" *ngIf="authorizeService.isAuthenticated()">
+      <div class="footer-copyright text-center py-3">
+       <h2>© 2020 Cancrie Solutions</h2> 
+      </div>
+    
+    </footer>
+  </mat-sidenav-content>
+  
+
+</mat-sidenav-container>
+

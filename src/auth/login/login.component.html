@@ -1,0 +1,39 @@
+<div class="text-center">
+  <div class="row">
+    <div class="col">
+      <form [formGroup]="loginForm">
+      <mat-card class="text-center">
+        <div class="row">
+          <div class="col">
+            <img src="./../../assets/Images/logo.png" height="200" width="180"/>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col">
+            <mat-form-field appearance="outline">
+              <mat-label>Username</mat-label>
+              <input matInput formControlName="username"  type="text" id="username">
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <mat-form-field appearance="outline">
+              <mat-label>Password</mat-label>
+              <input matInput  type="password" formControlName="password" id="password">
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+           <button mat-raised-button color="accent" (click)="submitForm()">Login</button>
+          </div>
+        </div>
+      </mat-card>
+    </form>
+    </div>
+  </div>
+</div>
+
+

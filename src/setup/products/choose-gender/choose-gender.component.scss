@@ -1,0 +1,22 @@
+.category-card {
+    cursor: pointer;
+    margin-bottom: 1rem;
+}
+.selected-cat {
+    border: 3px #f50057 solid;
+    transition: 0.3s;
+}
+.text-right{
+    float: right;
+}
+mat-icon{
+    font-size: 128px;
+}
+h3{
+    font-size: 50px;
+}
+img {
+    width: 100%;
+    height: 50%;
+    object-fit: contain;
+  }

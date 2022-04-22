@@ -1,0 +1,97 @@
+<mat-card>
+    <mat-card-header>
+        <div class="row">
+            <mat-card-title>
+                User Orders
+            </mat-card-title>
+        </div>
+        <div class="row" style="width: 90%;justify-content: flex-end;">
+            <button mat-raised-button color="accent" (click)="printPage()" style="margin: 1px;">Print
+                Orders</button>
+        </div>
+
+    </mat-card-header>
+    <hr>
+    <br>
+    <mat-card-content>
+        <div class="row">
+            <div class="col">
+                <form [formGroup]="filterForm">
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Order Id</mat-label>
+                                <input type="text" matInput formControlName="orderId">
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Created Date</mat-label>
+                                <mat-date-range-input [rangePicker]="picker">
+                                    <input matStartDate formControlName="fromDate" placeholder="Start date">
+                                    <input matEndDate formControlName="toDate" placeholder="End date">
+                                </mat-date-range-input>
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-date-range-picker #picker></mat-date-range-picker>
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Total Amount</mat-label>
+                                <input type="number" matInput formControlName="totalAmount">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row" style="float: right!important;">
+                        <button mat-raised-button color="accent" (click)="applyFilter()"
+                            style="margin: 2px;">Search</button>
+                        <button mat-raised-button color="accent" (click)="clearFilters()" style="margin: 2px;">Clear
+                            Filters</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>
+<div id="print-section" fxLayout.xs="column" fxLayout="row wrap" fxLayoutGap="10px" ngClass.gt-xs="ml-10">
+    <mat-card fxFlex.sm="0 1 calc(50%-10px)" fxFlex.md="0 1 calc(33%-10px)" fxFlex.gt-md="0 1 calc(25%-10px)"
+        *ngFor="let order of ordersList" class="col-xs-12 col-xs-12 col-md-4" style="margin-top: 5px;">
+        <mat-card-content>
+            <div class="row">
+                <div class="col">
+                    <b> Order Id:</b> {{order.id}}
+                </div>
+                <div class="col">
+                    <b> Order Date:</b> {{order.createdDate | date}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <b> Total Amount:</b> {{order.totalAmount}}
+                </div>
+                <div class="col">
+                    <b> User Name:</b> {{order.createdByNavigation.fullName}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <b> User Address:</b> {{order.createdByNavigation.address}}
+                </div>
+                <div class="col">
+                    <b> User Mobile Number:</b>
+                    <a *ngIf="isPrintEnabled" href="" target="_">{{order.createdByNavigation.mobileNumber}}</a>
+                    <a *ngIf="!isPrintEnabled" mat-raised-button color="accent" class="call-btn"
+                        [href]="'tel:'+order.createdByNavigation.mobileNumber">{{order.createdByNavigation.mobileNumber}}</a>
+                </div>
+            </div>
+        </mat-card-content>
+        <hr>
+        <mat-card-actions *ngIf="!isPrintEnabled" class="text-right">
+            <a mat-raised-button color="accent" class="call-btn"
+                [routerLink]="'/setup/order-details/'+order.id">Details</a>
+        </mat-card-actions>
+    </mat-card>
+</div>
+<mat-paginator (page)="changePage($event)" [length]="totalListCount" [pageSize]="10"
+    [pageSizeOptions]="[1, 10, 25, 100]">
+</mat-paginator>

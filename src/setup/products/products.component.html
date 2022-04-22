@@ -1,0 +1,166 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      Products List
+    </mat-card-title>
+  </mat-card-header>
+  <div class="row">
+    <div class="col text-right" style="margin-top: 20px;">
+      <button mat-raised-button color="warn" (click)="toggleProducts(2, 1)" style="margin: 2px;">Display all products in mobile application</button>
+      <button mat-raised-button color="warn" (click)="toggleProducts(1, 2)" style="margin: 2px;">Hide all products in mobile application</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col text-right" style="margin-top: 20px;">
+      <button mat-raised-button color="accent" (click)="navigateToAdd()" style="margin: 1px;">Add new product</button>
+    </div>
+  </div>
+  <hr>
+  <mat-card-content>
+    <div class="row">
+      <div class="col">
+        <form [formGroup]="filterForm">
+          <div class="row">
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Title</mat-label>
+                <input type="text" matInput formControlName="title">
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Brand</mat-label>
+                <input type="text" matInput formControlName="brand">
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Sub Category Name</mat-label>
+                <input type="text" matInput formControlName="subCategoryName">
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Item Id</mat-label>
+                <input type="number" matInput formControlName="itemId">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Minimum Price</mat-label>
+                <input type="number" matInput formControlName="minPrice">
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Maximum Price</mat-label>
+                <input type="number" matInput formControlName="maxPrice">
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Gender</mat-label>
+                <mat-select formControlName="gender">
+                  <mat-option value="1">Male </mat-option>
+                  <mat-option value="2">Female </mat-option>
+                  <mat-option value="3">All </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Status</mat-label>
+                <mat-select formControlName="status">
+                  <mat-option [value]="1">Active </mat-option>
+                  <mat-option [value]="2">In Active </mat-option>
+                  <mat-option [value]="8">Empty </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col text-right" style="margin-top: 20px;">
+              <button mat-raised-button color="accent" (click)="applyFilter()" style="margin: 2px;">Search</button>
+              <button mat-raised-button color="accent" (click)="clearFilters()" style="margin: 2px;">Clear
+                Filters</button>
+            </div>
+          </div>
+         
+        </form>
+      </div>
+    </div>
+    <br>
+    <hr>
+    <br>
+    <div fxLayout.xs="column" fxLayout="row wrap" fxLayoutGap="10px" ngClass.gt-xs="ml-10">
+      <mat-card fxFlex.sm="0 1 calc(50%-10px)" fxFlex.md="0 1 calc(33%-10px)" fxFlex.gt-md="0 1 calc(25%-10px)"
+        *ngFor="let item of itemList">
+        <img mat-card-image
+          [src]="imageUrl +item.defaultImageUrl+imageSasToken"
+          alt="Default Item Image">
+        <mat-card-header>
+          <div class="row">
+            <mat-card-title *ngIf="item.title"> Title: {{item.title}}</mat-card-title>
+            <mat-card-title> Item Id: {{item.id}}</mat-card-title>
+            <!-- <mat-card-subtitle>Arabic Title: {{item.titleAr}}</mat-card-subtitle> -->
+           <!--  <mat-chip-list aria-label="Status" class="right-align">
+              <mat-chip class="item-color-shadow" *ngFor="let color of item.colors" [style.backgroundColor]="color">
+              </mat-chip>
+            </mat-chip-list> -->
+          </div>
+        </mat-card-header>
+        <hr>
+        <mat-card-content>
+          <div class="row">
+            <div class="col-12">
+              <mat-chip-list aria-label="Status">
+                <mat-chip color="accent" selected *ngIf="item?.status == 1">Active</mat-chip>
+                <mat-chip color="accent" *ngIf="item?.status == 2">In Active</mat-chip>
+                <mat-chip color="warn" *ngIf="item?.status == 8">Empty</mat-chip>
+                <mat-chip color="accent" *ngIf="item?.isSet">Set Items</mat-chip>
+              </mat-chip-list>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col">
+              <b> Category:</b> {{item?.categoryName}}
+            </div>
+            <div class="col">
+              <b> Sub Category:</b> {{item?.subCategoryName}}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <b> Price:</b> {{item.price}}
+            </div>
+            <div class="col">
+              <b> Brand:</b> {{item.brandName}}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <b> Item Count:</b> {{item.itemCount}}
+            </div>
+          </div>
+        </mat-card-content>
+        <hr>
+        <mat-card-actions class="text-right">
+          <button mat-raised-button color="accent" (click)="addSale(item.id)" style="margin-right: 1px;">Add Sale</button>
+          <button mat-mini-fab color="accent" style="margin-right: 1px;" (click)="navigateToEdit(item.id)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-mini-fab color="accent" style="margin-right: 1px;" (click)="navigateToView(item.id)">
+            <mat-icon>info</mat-icon>
+          </button>
+          <button mat-mini-fab color="warn"  (click)="deleteItem(item)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    <mat-paginator (page)="changePage($event)" [length]="totalListCount" [pageIndex]="getFormControlByName('pageNumber').value-1" [pageSize]="getFormControlByName('pageSize').value"
+      [pageSizeOptions]="[1, 10, 25, 100]"></mat-paginator>
+  </mat-card-content>
+</mat-card>

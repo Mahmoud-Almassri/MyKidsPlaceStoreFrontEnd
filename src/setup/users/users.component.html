@@ -1,0 +1,89 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      Filter Users
+    </mat-card-title>
+  </mat-card-header>
+  <hr>
+  <mat-card-content>
+    <div class="row">
+      <div class="col">
+        <form [formGroup]="filterForm">
+          <div class="row">
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Full Name</mat-label>
+                <input type="text" matInput formControlName="fullName">
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Mobile Number</mat-label>
+                <input type="text" matInput formControlName="mobileNumber">
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Address</mat-label>
+                <input type="text" matInput formControlName="address">
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field appearance="outline">
+                <mat-label>Is Active</mat-label>
+                <mat-select formControlName="isActive">
+                  <mat-option [value]="true">Active </mat-option>
+                  <mat-option [value]="false">InActive </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col text-right" style="margin-top: 20px;">
+              <button mat-raised-button color="accent" (click)="applyFilter()" style="margin: 1px;">Search</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+<br>
+<mat-card>
+  <mat-card-content>
+    <div class="row">
+      <mat-card *ngFor="let user of usersList" class="col-xs-12 col-xs-12 col-md-4" style="margin-top: 5px;">
+        <div class="row">
+          <div class="col-8">
+            <b> Full Name:</b> {{user.fullName}}
+          </div>
+          <div class="col-4 text-right">
+            <mat-chip-list aria-label="Fish selection">
+              <mat-chip color="accent" selected *ngIf="user?.isActive">Active</mat-chip>
+              <mat-chip color="accent" *ngIf="!user?.isActive">InActive</mat-chip>
+            </mat-chip-list>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <b> Mobile Number:</b> {{user.mobileNumber}}
+          </div>
+          <div class="col">
+            <b> Address:</b> {{user.address}}
+          </div>
+        </div>
+        <hr>
+        <mat-card-actions class="text-right">
+          <button *ngIf="!user?.isActive" mat-raised-button color="accent"
+            (click)="updateStatus(user.id)">Activate</button>
+          <button *ngIf="user?.isActive" mat-raised-button color="accent"
+            (click)="updateStatus(user.id)">Deactivate</button>
+          <a mat-raised-button color="accent" class="call-btn" [href]="'tel:'+user.mobileNumber">Call</a>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    <mat-paginator (page)="changePage($event)" [length]="totalListCount" [pageSize]="10"
+      [pageSizeOptions]="[1, 10, 25, 100]"></mat-paginator>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,96 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>
+            Order Details
+        </mat-card-title>
+    </mat-card-header>
+    <hr>
+    <mat-card-content>
+        <div class="row">
+            <div class="col-4">
+                <b> Created Date:</b> {{order?.createdDate | date}}
+            </div>
+            <div class="col-4">
+                <b> Total Amount:</b> {{order?.totalAmount}}
+            </div>
+            <div class="col-4">
+                <mat-form-field *ngIf="order" appearance="outline">
+                    <mat-label>Order Status</mat-label>
+                    <mat-select [(ngModel)]="order.status">
+                        <mat-option [value]="1">Active </mat-option>
+                        <mat-option [value]="2">InActive </mat-option>
+                        <mat-option [value]="7">Delivered </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div> 
+            <div class="col-4">
+                  <button mat-raised-button color="accent" (click)="updateStatus()" style="margin: 1px;">Save Changes</button>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>
+<br>
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>
+            Order Cart Items
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div fxLayout.xs="column" fxLayout="row wrap" fxLayoutGap="10px" ngClass.gt-xs="ml-10">
+            <mat-card fxFlex.sm="0 1 calc(50%-10px)" fxFlex.md="0 1 calc(33%-10px)" fxFlex.gt-md="0 1 calc(25%-10px)"
+              *ngFor="let item of order?.cartItem">
+              <img mat-card-image
+                [src]="item.item.defaultImageUrl? imageUrl+ item.item.defaultImageUrl+imageSasToken : '../../../assets/Images/logo.png'"
+                alt="Default Item Image"> 
+              <mat-card-header>
+                <div class="row">
+                  <mat-card-title> Title: {{item.item.title}}</mat-card-title>
+                  <!-- <mat-card-subtitle>Arabic Title: {{item.titleAr}}</mat-card-subtitle> -->
+                  <mat-chip-list aria-label="Status" class="right-align">
+                    <mat-chip *ngFor="let color of item.item.colors" [style.backgroundColor]="color"></mat-chip>
+                  </mat-chip-list>
+                </div>
+              </mat-card-header>
+              <hr>
+              <mat-card-content>
+                <div class="row">
+                  <div class="col-12">
+                    <mat-chip-list aria-label="Status">
+                      <mat-chip color="accent" selected *ngIf="item.item?.status == 1">Active</mat-chip>
+                      <mat-chip color="accent" *ngIf="item.item?.status != 1">InActive</mat-chip>
+                      <mat-chip color="accent" *ngIf="item.item?.isSet">Set Items</mat-chip>
+                    </mat-chip-list>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col">
+                    <b> Category:</b> {{item.item?.categoryName}}
+                  </div>
+                  <div class="col">
+                    <b> Sub Category:</b> {{item.item?.subCategoryName}}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <b> Price:</b> {{item.price}}
+                  </div>
+                  <div class="col">
+                    <b> Brand:</b> {{item.item.brandName}}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <b> Ordered Count:</b> {{item.count}}
+                  </div>
+                </div>
+              </mat-card-content>
+              <hr>
+              <mat-card-actions class="text-right">
+                <button mat-raised-button color="accent" (click)="navigateToEdit(item.item.id)">Edit</button>
+                <button mat-raised-button color="accent" (click)="navigateToView(item.item.id)">Details</button>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+    </mat-card-content>
+</mat-card>
